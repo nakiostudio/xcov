@@ -35,8 +35,7 @@ module Xcov
       submit_to_coveralls(report)
       tmp_dir = File.join(Xcov.config[:output_directory], 'tmp')
       FileUtils.rm_rf(tmp_dir) if File.directory?(tmp_dir)
-
-      json_report
+      report
     end
 
     def parse_xccoverage
@@ -136,6 +135,12 @@ module Xcov
       if Xcov.config[:markdown_report] then
         File.open(File.join(output_path, "report.md"), "wb") do |file|
           file.puts report.markdown_value
+        end
+      end
+
+      if Xcov.config[:markdown_summary_report] then
+        File.open(File.join(output_path, "summary_report.md"), "wb") do |file|
+          file.puts report.markdown_summary_value
         end
       end
 
